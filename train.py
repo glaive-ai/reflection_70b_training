@@ -61,7 +61,7 @@ def training_function(script_args, training_args):
         script_args.model_id,
         attn_implementation="sdpa", # use sdpa, alternatively use "flash_attention_2"
         torch_dtype=torch_dtype,
-        use_cache=False if training_args.gradient_checkpointing else True,  # this is needed for gradient checkpointing
+        use_cache=False,  # this is needed for gradient checkpointing
     )
     model.resize_token_embeddings(len(tokenizer))
 
@@ -72,7 +72,7 @@ def training_function(script_args, training_args):
     # Training
     
     trainer = SFTTrainer(
-        model=script_args.model_id,
+        model=model,
         args=training_args,
         train_dataset=train_dataset,
         max_seq_length=script_args.max_seq_length,
