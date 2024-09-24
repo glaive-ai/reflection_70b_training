@@ -1,0 +1,25 @@
+model_id: "meta-llama/Meta-Llama-3.1-70B-Instruct"
+dataset_path: "reflection-data.json"                      
+max_seq_length:  4096
+output_dir: "./training_run"
+report_to: "wandb"               
+learning_rate: 0.00002           
+lr_scheduler_type: "cosine"      
+num_train_epochs: 3              
+per_device_train_batch_size: 1   # Original training was run on 2x Nodes of 8x H100 GPUs
+per_device_eval_batch_size: 1    
+gradient_accumulation_steps: 1   
+optim: adamw_torch               
+logging_steps: 1                 
+save_strategy: epoch             
+max_grad_norm: 0.3               
+warmup_ratio: 0.06               
+bf16: true                       
+tf32: false                      
+fsdp: "full_shard auto_wrap"
+fsdp_config:
+  activation_checkpointing: true
+  backward_prefetch: "backward_pre"
+  forward_prefetch: "false"
+  use_orig_params: "false"
+  cpu_ram_efficient_loading: true
